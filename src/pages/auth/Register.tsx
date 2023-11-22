@@ -1,10 +1,15 @@
 import { Input, Button } from "@nextui-org/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ID, account } from "../../config/AppwriteConfig";
 import { toast } from "react-toastify";
 
-const Login = () => {
+
+const Register = () => {
+
+  const navigate = useNavigate()
+  
+
   const [auth, setAuth] = useState({
     name: "",
     email: "",
@@ -25,11 +30,10 @@ const Login = () => {
     );
 
     promise
-      .then((res) => {
+      .then(() => {
         setLoading(false);
-        toast.success("Account created successfully!  please login now", {
-          theme: "colored",
-        });
+        toast.success("Account created successfully!  please login now", { theme: "colored",})
+        navigate('/login')
       })
       .catch((err) => {
         setLoading(false);
@@ -90,4 +94,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default  Register;

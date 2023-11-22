@@ -3,9 +3,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { account } from "../../config/AppwriteConfig";
+import { UseData } from "../../data/Store";
 
 const Login = () => {
+
   const naviagte = useNavigate();
+  const userData = UseData()
 
   const [auth, setAuth] = useState({
     email: "",
@@ -24,6 +27,7 @@ const Login = () => {
         setLoading(false);
         toast.success("Loagin succesfuly ", { theme: "colored" });
         naviagte("/");
+        userData.UpdateUserSession(res)
         console.log(res);
       })
       .catch((err) => {
