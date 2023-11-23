@@ -3,6 +3,7 @@ import App from "../App";
 import Login from "../pages//auth/Login";
 import Register from "../pages/auth/Register";
 import ErrorPage from "../pages/ErrorPage";
+import Logout from "../components/Logout";
 
 export const route = createBrowserRouter([
   {
@@ -18,4 +19,8 @@ export const route = createBrowserRouter([
     path: "/register",
     Component: Register,
   },
+  {
+    path : '/signout',
+    Component : Logout,
+  }
 ]);

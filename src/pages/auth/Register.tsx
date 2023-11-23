@@ -4,11 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ID, account } from "../../config/AppwriteConfig";
 import { toast } from "react-toastify";
 
-
 const Register = () => {
-
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const [auth, setAuth] = useState({
     name: "",
@@ -32,8 +29,10 @@ const Register = () => {
     promise
       .then(() => {
         setLoading(false);
-        toast.success("Account created successfully!  please login now", { theme: "colored",})
-        navigate('/login')
+        toast.success("Account created successfully!  please login now", {
+          theme: "colored",
+        });
+        navigate("/login");
       })
       .catch((err) => {
         setLoading(false);
@@ -76,7 +75,9 @@ const Register = () => {
           <div className="m-5">
             <Button
               disabled={loading}
-              className="bg-[#65b9f5] text-black w-full"
+              className={`${
+                loading ? "bg-green-500" : "bg-[#65b9f5]"
+              } text-black w-full`}
               type="submit"
             >
               {loading ? "Processing..." : "Submit"}
@@ -94,4 +95,4 @@ const Register = () => {
   );
 };
 
-export default  Register;
+export default Register;

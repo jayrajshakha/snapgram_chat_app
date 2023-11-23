@@ -1,17 +1,16 @@
-import { user } from "@nextui-org/react";
 import { Models } from "appwrite";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 type state = {
   usersData: Models.Session | object;
-  userSession : Models.User <Models.Preferences> | object
+  userSession: Models.User<Models.Preferences> | object;
 };
 
 type Action = {
   UpdateUserSession: (session: Models.Session) => void;
-  updateData : (userSession : Models.User <Models.Preferences>) => void
-  userReset : () => void
+  updateData: (userSession: Models.User<Models.Preferences>) => void;
+  userReset: () => void;
 };
 
 export const UseData = create<state & Action>()(
@@ -19,16 +18,15 @@ export const UseData = create<state & Action>()(
     persist(
       (set) => ({
         usersData: {},
-        userSession : {},
+        userSession: {},
 
         UpdateUserSession: (session: Models.Session) =>
           set(() => ({ usersData: session })),
 
-         updateData : (user : Models.User <Models.Preferences> )  => 
-         set((s) => ({userSession : user})),
+        updateData: (user: Models.User<Models.Preferences>) =>
+          set((s) => ({ userSession: user })),
 
-         userReset : () => 
-         set(() => ({ usersData : {} , userSession : { }}))
+        userReset: () => set(() => ({ usersData: {}, userSession: {} })),
       }),
       { name: "userLogin" }
     )

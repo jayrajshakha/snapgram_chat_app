@@ -3,6 +3,7 @@ import { account } from "./config/AppwriteConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UseData } from "./data/Store";
+import AppNavbar from "./components/AppNavbar";
 
 const App = () => {
   const isLogedin = useRef<boolean>(false);
@@ -18,7 +19,7 @@ const App = () => {
         })
         .catch((err) => {
           navigate("/login");
-          toast.error( " You are not Login ! Please Login", {
+          toast.error(" You are not Login ! Please Login", {
             theme: "colored",
           });
           console.log(err);
@@ -30,7 +31,7 @@ const App = () => {
 
   return (
     <div>
-      <h1 className="text-center font-bold ">This is a Home Page </h1>
+      <AppNavbar />
     </div>
   );
 };

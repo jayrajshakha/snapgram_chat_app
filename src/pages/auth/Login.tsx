@@ -6,9 +6,8 @@ import { account } from "../../config/AppwriteConfig";
 import { UseData } from "../../data/Store";
 
 const Login = () => {
-
   const naviagte = useNavigate();
-  const userData = UseData()
+  const userData = UseData();
 
   const [auth, setAuth] = useState({
     email: "",
@@ -27,13 +26,11 @@ const Login = () => {
         setLoading(false);
         toast.success("Loagin succesfuly ", { theme: "colored" });
         naviagte("/");
-        userData.UpdateUserSession(res)
-        console.log(res);
+        userData.UpdateUserSession(res);
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err.message, { theme: "colored" });
-        console.log(err);
       });
   };
 
@@ -67,7 +64,9 @@ const Login = () => {
           <div className="m-5">
             <Button
               disabled={loading}
-              className="bg-[#65b9f5] text-black w-full"
+              className={`${
+                loading ? "bg-green-500" : "bg-[#65b9f5]"
+              } text-black w-full`}
               type="submit"
             >
               {loading ? "Processing..." : "Submit"}
