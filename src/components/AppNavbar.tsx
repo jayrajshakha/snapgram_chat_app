@@ -1,7 +1,10 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { Input } from "@nextui-org/react";
+import { SearchIcon } from "./SearchIcon";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import CreateCommunity from "./CreateCommunity";
 
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
@@ -15,7 +18,6 @@ export default function AppNavbar() {
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -26,7 +28,8 @@ export default function AppNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+
+              <div className="flex flex-1 items-center justify-center sm:justify-start sm:items-stretch ">
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className=" h-6 mx-2 w-auto"
@@ -37,27 +40,28 @@ export default function AppNavbar() {
                     Snapgram
                   </p>
                 </div>
-                <div className="hidden sm:flex items-center  ">
-                  <div className="flex ">
-                    <a
-                      href={"#"}
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white"
-                      aria-current="page"
-                    >
-                      community
-                    </a>
-                  </div>
+                <div className="hidden sm:flex p-4 justify-center items-center ">
+                  <button className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal">
+                    <CreateCommunity />
+                  </button>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className=" hidden sm:inline-block relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                <div className="hidden hover:bg-blue-800  sm:inline-block">
+                  <Input
+                    classNames={{
+                      base: "max-w-full sm:max-w-[13rem] h-10 hover:bg-blue-800  ",
+                      mainWrapper: "h-full hover:bg-blue-800 ",
+                      input: "text-small  ",
+                      inputWrapper:
+                        "h-full font-normal hover:bg-blue-800  text-default-500 bg-default-400/20 dark:bg-default-500/20",
+                    }}
+                    placeholder="Search communities"
+                    size="sm"
+                    startContent={<SearchIcon size={18} />}
+                    type="search"
+                  />
+                </div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
@@ -130,14 +134,9 @@ export default function AppNavbar() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-              <Disclosure.Button
-                as="a"
-                href={"#"}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-                aria-current={"page"}
-              >
-                community
-              </Disclosure.Button>
+              <div className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
+                <CreateCommunity />
+              </div>
             </div>
           </Disclosure.Panel>
         </>

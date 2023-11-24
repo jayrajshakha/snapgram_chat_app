@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 import { account } from "../config/AppwriteConfig";
-import { UseData } from "../data/Store";
+import { UseData } from "../data/UserStore";
 import { Models } from "appwrite";
 import { toast } from "react-toastify";
 

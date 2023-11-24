@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .sidebar {
+    height: -webkit-calc(100vh - 64px);
+    width: 100vw;
+  }
+  .bgs {
+    background: rgb(255, 255, 255);
+  }
+}

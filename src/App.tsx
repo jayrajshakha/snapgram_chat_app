@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { account } from "./config/AppwriteConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UseData } from "./data/Store";
+import { UseData } from "./data/UserStore";
 import AppNavbar from "./components/AppNavbar";
 
 const App = () => {
@@ -32,6 +32,9 @@ const App = () => {
   return (
     <div>
       <AppNavbar />
+      <div className="flex sidebar">
+        <div className="flex w-[25%]  sm:w-[16%] bgs justify-start items-center flex-col"></div>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { account } from "../../config/AppwriteConfig";
-import { UseData } from "../../data/Store";
+import { UseData } from "../../data/UserStore";
 
 const Login = () => {
   const naviagte = useNavigate();
