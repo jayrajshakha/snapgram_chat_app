@@ -1,16 +1,21 @@
-import { Fragment } from "react";
+import { Fragment} from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CreateCommunity from "./CreateCommunity";
+import {UseData} from '../data/UserStore'
+import { Models } from "appwrite";
+
 
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
-
 export default function AppNavbar() {
+
+  const UserData  = UseData((state) => state.userSession) as Models.User<Models.Preferences> 
+  
   return (
     <Disclosure as="nav" className="z-[100] bg-gray-800 sticky top-0  ">
       {({ open }) => (
@@ -98,7 +103,7 @@ export default function AppNavbar() {
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Your Profile
+                            {UserData.name}
                           </a>
                         )}
                       </Menu.Item>

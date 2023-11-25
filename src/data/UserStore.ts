@@ -24,7 +24,7 @@ export const UseData = create<state & Action>()(
           set(() => ({ usersData: session })),
 
         updateData: (user: Models.User<Models.Preferences>) =>
-          set((s) => ({ userSession: user })),
+          set(() => ({ userSession: user })),
 
         userReset: () => set(() => ({ usersData: {}, userSession: {} })),
       }),
