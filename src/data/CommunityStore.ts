@@ -7,15 +7,20 @@ type state = {
 };
 
 type Action = {
-  AddCommunities: (data: Models.Document) => void;
+  AddCommunity: (data: Models.Document) => void;
+  AddCommunities: (data: Array<Models.Document>) => void;
 };
 
 export const communitiesStore = create<state & Action>()(
   devtools((set) => ({
     communities: [],
-    AddCommunities: (data: Models.Document) =>
+    AddCommunity: (data: Models.Document) =>
       set((state) => ({
         communities: [data, ...state.communities],
+      })),
+    AddCommunities: (data: Array<Models.Document>) =>
+      set(() => ({
+        communities: data,
       })),
   }))
 );

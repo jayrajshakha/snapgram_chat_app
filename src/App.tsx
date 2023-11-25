@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UseData } from "./data/UserStore";
 import AppNavbar from "./components/AppNavbar";
+import CommunityList from "./components/CommunityList";
+// import CommunityList from "./components/CommunityList";
 
 const App = () => {
   const isLogedin = useRef<boolean>(false);
@@ -30,10 +32,10 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="custom-scrollbar">
       <AppNavbar />
-      <div className="flex sidebar">
-        <div className="flex w-[25%]  sm:w-[16%] bgs justify-start items-center flex-col"></div>
+      <div className="flex h-screen">
+        <CommunityList />
       </div>
     </div>
   );

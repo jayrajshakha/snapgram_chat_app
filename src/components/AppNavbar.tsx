@@ -12,7 +12,7 @@ function classNames(...classes: unknown[]) {
 
 export default function AppNavbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="z-[100] bg-gray-800 sticky top-0  ">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,7 +41,10 @@ export default function AppNavbar() {
                   </p>
                 </div>
                 <div className="hidden sm:flex p-4 justify-center items-center ">
-                  <button className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal">
+                  <button
+                    title="btn"
+                    className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal"
+                  >
                     <CreateCommunity />
                   </button>
                 </div>

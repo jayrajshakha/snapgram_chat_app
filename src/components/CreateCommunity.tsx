@@ -41,7 +41,7 @@ export default function CreateCommunity() {
     databasePromise
       .then((res) => {
         setLoading(false);
-        communityState.AddCommunities(res);
+        communityState.AddCommunity(res);
         toast.success("Community Created Successfully");
       })
       .catch((err: AppwriteException) => {

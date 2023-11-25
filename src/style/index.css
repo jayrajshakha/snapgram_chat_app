@@ -2,12 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
-  .sidebar {
-    height: -webkit-calc(100vh - 64px);
-    width: 100vw;
+   html , body {
+     @apply custom-scrollbar
+   }
+}
+@layer utilities {
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    border-radius: 0;
   }
-  .bgs {
-    background: rgb(255, 255, 255);
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #ffffff;
   }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 50px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+  }
+
 }
