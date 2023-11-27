@@ -5,10 +5,26 @@
 
 @layer base {
    html , body {
-     @apply custom-scrollbar
+     @apply custom-scrollbar 
    }
+   ch {
+    @apply custom-height
+   }
+
 }
 @layer utilities {
+
+  .custom-height {
+       height: -webkit-calc(100vh - 68px) ;
+   
+ 
+  }
+  
+  .custom-height-2 {
+    height: -webkit-calc(100vh - (68px + 57px)) ;
+
+
+}
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 0;

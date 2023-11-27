@@ -1,21 +1,27 @@
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CreateCommunity from "./CreateCommunity";
-import {UseData} from '../data/UserStore'
+import { UseData } from "../data/UserStore";
 import { Models } from "appwrite";
-
 
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
 export default function AppNavbar() {
+  const UserData = UseData(
+    (state) => state.userSession
+  ) as Models.User<Models.Preferences>;
 
-  const UserData  = UseData((state) => state.userSession) as Models.User<Models.Preferences> 
-  
+  const nv = useNavigate();
+
+  const navigate = () => {
+    nv("/");
+  };
+
   return (
     <Disclosure as="nav" className="z-[100] bg-gray-800 sticky top-0  ">
       {({ open }) => (
@@ -35,7 +41,10 @@ export default function AppNavbar() {
               </div>
 
               <div className="flex flex-1 items-center justify-center sm:justify-start sm:items-stretch ">
-                <div className="flex flex-shrink-0 items-center">
+                <div
+                  onClick={navigate}
+                  className="flex cursor-pointer flex-shrink-0 items-center"
+                >
                   <img
                     className=" h-6 mx-2 w-auto"
                     src="../../public/assets/favicon.ico"

@@ -56,8 +56,8 @@ export default function CreateCommunity() {
         Add Community
       </button>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
+      <Modal isOpen={isOpen} className="  mx-5 mb-5 sm:m-0 " onOpenChange={onOpenChange}>
+        <ModalContent >
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">

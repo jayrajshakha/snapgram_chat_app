@@ -4,6 +4,7 @@ import Login from "../pages//auth/Login";
 import Register from "../pages/auth/Register";
 import ErrorPage from "../pages/ErrorPage";
 import Logout from "../components/Logout";
+import Chat from "../pages/Chat";
 
 export const route = createBrowserRouter([
   {
@@ -20,7 +21,11 @@ export const route = createBrowserRouter([
     Component: Register,
   },
   {
-    path : '/signout',
-    Component : Logout,
-  }
+    path: "/signout",
+    Component: Logout,
+  },
+  {
+    path: "/chat/:id",
+    Component: Chat,
+  },
 ]);
