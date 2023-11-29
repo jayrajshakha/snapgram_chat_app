@@ -1,72 +1,170 @@
 import { useParams } from "react-router-dom";
 import AppNavbar from "../components/AppNavbar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  ChatCollectionId,
+  client,
+  database,
+  databaseId,
+} from "../config/AppwriteConfig";
+import { UseData } from "../data/UserStore";
+import { AppwriteException, ID, Models } from "appwrite";
+import { toast } from "react-toastify";
+import { messageStore } from "../data/Chat";
+import Loading from "../components/Loading";
 
 const Chat = () => {
-  const p = useParams();
-  const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const params = useParams();
 
-  const [message , setMessage] = useState('')
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const isFetch = useRef(false);
+
+  const user = UseData(
+    (state) => state.userSession
+  ) as Models.User<Models.Preferences>;
+  const messageData = messageStore();
+
+  useEffect(() => {
+    if (!isFetch.current) {
+      FetchMasseage();
+
+      // for realtime Updates
+
+      client.subscribe(
+        `databases.${databaseId}.collections.${ChatCollectionId}.documents`,
+        (res) => {
+          const payload = res.payload as Models.Document;
+
+          if (
+            res.events.includes("databases.*.collections.*.documents.*.create")
+          )
+            if (user.$id !== payload.user_id) {
+              messageData.addSingleMessage(payload);
+            } else if (
+              res.events.includes(
+                "databases.*.collections.*.documents.*.delete"
+              )
+            ) {
+              messageData.DeleteMessage(payload.$id);
+            }
+        }
+      );
+    }
+    isFetch.current = true;
+    setLoading(false);
+  }, []);
 
   const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      
-       setMessage('')
-       
-  }
+    e.preventDefault();
+    database
+      .createDocument(databaseId, ChatCollectionId, ID.unique(), {
+        communities_id: params.id,
+        masseage: message,
+        name: user.name,
+        user_id: user.$id,
+      })
+      .then((res) => {
+        messageData.addSingleMessage(res);
+      })
+      .catch((err: AppwriteException) => {
+        toast.error(err.message, { theme: "colored" });
+      });
+    setMessage("");
+  };
 
-  return (
+  const FetchMasseage = () => {
+    setLoading(true);
+    database
+      .listDocuments(databaseId, ChatCollectionId)
+      .then((res) => {
+        messageData.addAllMessage(res.documents);
+      })
+      .catch((err: AppwriteException) => {
+        toast.error(err.message, { theme: "colored" });
+      });
+  };
+
+  const deleteFun = (id: string) => {
+    database
+      .deleteDocument(databaseId, ChatCollectionId, id)
+      .then(() => {
+        messageData.DeleteMessage(id);
+        toast.success("Your message was deleted");
+      })
+      .catch((err: AppwriteException) => {
+        toast.error(err.message, { theme: "colored" });
+      });
+  };
+
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="bg-black  h-screen w-screen">
       <AppNavbar />
       <div className="flex flex-col w-screen custom-height gap-2 ">
         {/* this div for display message */}
         <div className="flex flex-col mx-2 sm:mx-10 overflow-scroll custom-height-2 ">
-          {a.map((item) => {
-            return item % 2 === 0 ? (
-              <div key={item} className=" sm:mx-7 flex justify-end">
-                <p className=" mr-1 my-2 text-base relative max-w-[75%] sm:max-w-[60%] rounded-xl  p-3  bg-purple-400">
-                  <span className="font-bold text-sm absolute pb-0.5   top-0 ">
-                    {p.id}
-                  </span>{" "}
-                  hey Lorem Lorem ipsum dolor sit amet,r. Lorem ipsum dolor sit
-                  amet, consectetur adipisicing elit. Maiores, commodi non.
-                </p>
-                {/* <div className="flex my-2 flex-col justify-end">
-                  <h1 className="text-xs h-6 bg-white rounded-full w-6 pt-1 text-center ">
-                    D
-                  </h1>
-                </div> */}
-              </div>
-            ) : (
-              <div className="flex sm:mx-7 justify-start" key={item}>
-                {/* <div className="flex my-2 flex-col justify-end">
-                  <h1 className="text-xs h-6 bg-green-400 rounded-full w-6 pt-1 text-center ">
-                    D
-                  </h1>
-                </div> */}
+          {messageData.chats?.map((item) => {
+            return item.user_id === user.$id ? (
+              params.id === item.communities_id.$id ? (
+                <div key={item.$id} className=" sm:mx-7 flex justify-end">
+                  <p className=" mr-1 my-2 text-base relative max-w-[75%] sm:max-w-[60%] rounded-xl  p-3  bg-purple-400">
+                    <span className="font-bold text-xs absolute pb-0.5   top-0 ">
+                      {item.name}
+                    </span>{" "}
+                    {item.masseage}
+                  </p>
+                  <button
+                    title="del"
+                    onClick={() => deleteFun(item.$id)}
+                    className="flex justify-end items-end mb-3 cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-trash-2 text-red-600 flex justify-end"
+                    >
+                      <path d="M3 6h18" />
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                      <line x1="10" x2="10" y1="11" y2="17" />
+                      <line x1="14" x2="14" y1="11" y2="17" />
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )
+            ) : params.id === item.communities_id.$id ? (
+              <div className="flex sm:mx-7 justify-" key={item.$id}>
                 <p
                   className="ml-1 my-2 relative max-w-[75%] sm:max-w-[60%]  
                            rounded-xl p-3  bg-green-400"
                 >
                   {" "}
-                  <span className="font-bold text-sm absolute pb-0.5  top-0 ">
-                    {p.id}
+                  <span className="font-bold text-xs absolute pb-0.5  top-0 ">
+                    {item.name}
                   </span>
-                  good morning and you say Lorem ipsum o Lorem ipsum, dolor sit
-                  amet consectetur adipisicing elit. At dolorem aliquid quod,
-                  praesentium in, optio et, ducimus fugiat voluptate officia ab
-                  magni!{" "}
+                  {item.masseage}
                 </p>
               </div>
+            ) : (
+              ""
             );
           })}
         </div>
 
         {/* this div for input */}
         <div className="bg-black ">
-          <form 
-          onSubmit={handlerSubmit}
-          className=" fixed bottom-1">
+          <form onSubmit={handlerSubmit} className=" fixed bottom-1">
             <label htmlFor="chat" className="sr-only">
               Your message
             </label>
@@ -104,6 +202,7 @@ const Chat = () => {
                 <span className="sr-only">Upload image</span>
               </button>
               <button
+                disabled={message.length < 0}
                 type="button"
                 className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
               >
@@ -125,7 +224,7 @@ const Chat = () => {
                 <span className="sr-only">Add emoji</span>
               </button>
               <input
-                onChange={e => setMessage(e.target.value)}
+                onChange={(e) => setMessage(e.target.value)}
                 id="chat"
                 type="text"
                 className="block sm:mx-4 outline-none p-2.5 w-full text-sm text-gray-300 bg-black rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
