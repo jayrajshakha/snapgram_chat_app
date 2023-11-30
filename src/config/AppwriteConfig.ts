@@ -13,6 +13,6 @@ export const database = new Databases(client);
 export const databaseId = import.meta.env.VITE_APP_DATABASE_ID;
 export const communityCallectionId = import.meta.env
   .VITE_APP_COMMUNITY_COLLECTION_ID;
-export const ChatCollectionId =  import.meta.env.VITE_APP_CHAT_COLLECTION_ID ;
+export const ChatCollectionId = import.meta.env.VITE_APP_CHAT_COLLECTION_ID;
 
 export { ID } from "appwrite";

@@ -27,7 +27,7 @@ export default function CreateCommunity() {
   const [loading, setLoading] = useState(false);
 
   const communityState = communitiesStore();
-  const user = UseData((state) => state.usersData) as Models.Session
+  const user = UseData((state) => state.usersData) as Models.Session;
 
   const handlerSubmit = () => {
     setLoading(true);
@@ -38,14 +38,13 @@ export default function CreateCommunity() {
       ID.unique(),
       {
         Name: community,
-        user_id : user.$id
+        user_id: user.$id,
       }
     );
     databasePromise
       .then((res) => {
         setLoading(false);
-        
-        
+
         communityState.AddCommunity(res);
         toast.success("Community Created Successfully");
       })
@@ -53,6 +52,7 @@ export default function CreateCommunity() {
         setLoading(false);
         toast.error(err.message, { theme: "colored" });
       });
+    setCommunity("");
   };
 
   return (

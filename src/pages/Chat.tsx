@@ -14,7 +14,6 @@ import { messageStore } from "../data/Chat";
 import Loading from "../components/Loading";
 import { communitiesStore } from "../data/CommunityStore";
 
-
 const Chat = () => {
   const params = useParams();
 
@@ -22,8 +21,8 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [heading, setHeading] = useState("");
   const isFetch = useRef(false);
-  const myRef = useRef(null)
-  const [submit , setSubmit] = useState(false)
+  const myRef = useRef(null);
+  const [submit, setSubmit] = useState(false);
 
   const user = UseData(
     (state) => state.userSession
@@ -32,23 +31,20 @@ const Chat = () => {
   const messageData = messageStore();
   const communityData = communitiesStore();
 
-
-  const executeScroll = () => myRef.current.scrollIntoView()    
-  // run this function from an event handler or an effect to execute scroll 
+  const executeScroll = () => myRef.current.scrollIntoView();
+  // run this function from an event handler or an effect to execute scroll
   useEffect(() => {
-     executeScroll()
-  })
-
-
+    executeScroll();
+  });
 
   useEffect(() => {
-    setSubmit(!submit)
+    setSubmit(!submit);
     const a = communityData.communities?.find((f) => f.$id === params.id);
     setHeading(a?.Name);
 
     if (!isFetch.current) {
       FetchMasseage();
-      setLoading(true)
+      setLoading(true);
 
       // for realtime Updates
 
@@ -62,8 +58,7 @@ const Chat = () => {
           )
             if (user.$id !== payload.user_id) {
               messageData.addSingleMessage(payload);
-            }
-             else if (
+            } else if (
               res.events.includes(
                 "databases.*.collections.*.documents.*.delete"
               )
@@ -79,7 +74,7 @@ const Chat = () => {
 
   const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmit(!submit)
+    setSubmit(!submit);
     database
       .createDocument(databaseId, ChatCollectionId, ID.unique(), {
         communities_id: params.id,
@@ -126,12 +121,11 @@ const Chat = () => {
     <div className="bg-black  h-screen w-screen">
       <AppNavbar />
       <div className="flex flex-col w-screen custom-height gap-2 ">
-        <div className="flex justify-center items-center bg-blue-900">
-          <h1 className="font-bold text-2xl text-white">{heading}</h1>
+        <div className="flex justify-center items-center bg-[#2e0b5e]">
+          <h1 className="font-bold text-2xl text-gray-500">{heading}</h1>
         </div>
         {/* this div for display message */}
-        <div 
-        className="flex flex-col mx-2 sm:mx-10 overflow-scroll mb-5 custom-height-2 ">
+        <div className="flex flex-col mx-2 sm:mx-10 overflow-scroll mb-5 custom-height-2 ">
           {messageData.chats?.map((item) => {
             return item.user_id === user.$id ? (
               params.id === item.communities_id.$id ? (
@@ -183,14 +177,13 @@ const Chat = () => {
                   {item.masseage}
                 </p>
               </div>
-              
             ) : (
               ""
             );
           })}
-          <div ref={myRef} className=""/>
+          <div ref={myRef} className="" />
         </div>
-        
+
         {/* this div for input */}
         <div className="">
           <form onSubmit={handlerSubmit} className=" fixed bottom-1">

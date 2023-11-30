@@ -36,7 +36,7 @@ const App = () => {
   return (
     <div className="custom-scrollbar bg-black w-screen h-screen">
       <AppNavbar />
-      <div className="flex custom-height justify-center items-center flex-col" >
+      <div className="flex custom-height justify-center items-center flex-col">
         <CommunityList />
       </div>
     </div>

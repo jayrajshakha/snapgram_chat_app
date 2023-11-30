@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
@@ -7,7 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CreateCommunity from "./CreateCommunity";
 import { UseData } from "../data/UserStore";
 import { Models } from "appwrite";
-import User from './User'
+import { communitiesStore } from "../data/CommunityStore";
 
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +17,28 @@ export default function AppNavbar() {
     (state) => state.userSession
   ) as Models.User<Models.Preferences>;
 
+  const community = communitiesStore(
+    (state) => state.communities
+  ) as Array<Models.Document>;
+
+  const [search, setSearch] = useState("");
+  const [allSearch, setAllSearch] = useState();
+  const [id, setId] = useState<string | undefined>();
   const nv = useNavigate();
+
+  const communityShw = () => {
+    nv(`/chat/${id}`);
+  };
+
+  const querySearch = () => {
+    const a = community.find((f) => f.Name === search);
+    setAllSearch(a?.Name);
+    setId(a?.$id);
+  };
+  useEffect(() => {
+    querySearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const navigate = () => {
     nv("/");
@@ -56,17 +77,16 @@ export default function AppNavbar() {
                   </p>
                 </div>
                 <div className="hidden sm:flex p-4 justify-center items-center ">
-                  <div
-                   
-                    className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal"
-                  >
+                  <div className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal">
                     <CreateCommunity />
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div className="hidden hover:bg-blue-800  sm:inline-block">
+                <div className="hidden sm:inline-block">
                   <Input
+                    onChange={(e) => setSearch(e.target.value)}
+                    value={search}
                     classNames={{
                       base: "max-w-full sm:max-w-[13rem] h-10 hover:bg-blue-800  ",
                       mainWrapper: "h-full hover:bg-blue-800 ",
@@ -79,6 +99,15 @@ export default function AppNavbar() {
                     startContent={<SearchIcon size={18} />}
                     type="search"
                   />
+                  <div
+                    onClick={communityShw}
+                    className={`bg-white ${
+                      allSearch ? " " : "hidden cursor-pointer"
+                    }
+                   p-2 rounded-md m-1 `}
+                  >
+                    <h1 className="cursor-pointer">{allSearch}</h1>
+                  </div>
                 </div>
 
                 {/* Profile dropdown */}
@@ -114,7 +143,6 @@ export default function AppNavbar() {
                             )}
                           >
                             {UserData.name}
-
                           </a>
                         )}
                       </Menu.Item>
