@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CreateCommunity from "./CreateCommunity";
 import { UseData } from "../data/UserStore";
 import { Models } from "appwrite";
+import User from './User'
 
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
@@ -55,12 +56,12 @@ export default function AppNavbar() {
                   </p>
                 </div>
                 <div className="hidden sm:flex p-4 justify-center items-center ">
-                  <button
-                    title="btn"
+                  <div
+                   
                     className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal"
                   >
                     <CreateCommunity />
-                  </button>
+                  </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -113,6 +114,7 @@ export default function AppNavbar() {
                             )}
                           >
                             {UserData.name}
+
                           </a>
                         )}
                       </Menu.Item>

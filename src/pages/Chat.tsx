@@ -12,22 +12,43 @@ import { AppwriteException, ID, Models } from "appwrite";
 import { toast } from "react-toastify";
 import { messageStore } from "../data/Chat";
 import Loading from "../components/Loading";
+import { communitiesStore } from "../data/CommunityStore";
+
 
 const Chat = () => {
   const params = useParams();
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [heading, setHeading] = useState("");
   const isFetch = useRef(false);
+  const myRef = useRef(null)
+  const [submit , setSubmit] = useState(false)
 
   const user = UseData(
     (state) => state.userSession
   ) as Models.User<Models.Preferences>;
+
   const messageData = messageStore();
+  const communityData = communitiesStore();
+
+
+  const executeScroll = () => myRef.current.scrollIntoView()    
+  // run this function from an event handler or an effect to execute scroll 
+  useEffect(() => {
+     executeScroll()
+  })
+
+
 
   useEffect(() => {
+    setSubmit(!submit)
+    const a = communityData.communities?.find((f) => f.$id === params.id);
+    setHeading(a?.Name);
+
     if (!isFetch.current) {
       FetchMasseage();
+      setLoading(true)
 
       // for realtime Updates
 
@@ -41,7 +62,8 @@ const Chat = () => {
           )
             if (user.$id !== payload.user_id) {
               messageData.addSingleMessage(payload);
-            } else if (
+            }
+             else if (
               res.events.includes(
                 "databases.*.collections.*.documents.*.delete"
               )
@@ -57,6 +79,7 @@ const Chat = () => {
 
   const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmit(!submit)
     database
       .createDocument(databaseId, ChatCollectionId, ID.unique(), {
         communities_id: params.id,
@@ -103,14 +126,18 @@ const Chat = () => {
     <div className="bg-black  h-screen w-screen">
       <AppNavbar />
       <div className="flex flex-col w-screen custom-height gap-2 ">
+        <div className="flex justify-center items-center bg-blue-900">
+          <h1 className="font-bold text-2xl text-white">{heading}</h1>
+        </div>
         {/* this div for display message */}
-        <div className="flex flex-col mx-2 sm:mx-10 overflow-scroll custom-height-2 ">
+        <div 
+        className="flex flex-col mx-2 sm:mx-10 overflow-scroll mb-5 custom-height-2 ">
           {messageData.chats?.map((item) => {
             return item.user_id === user.$id ? (
               params.id === item.communities_id.$id ? (
-                <div key={item.$id} className=" sm:mx-7 flex justify-end">
+                <div key={item.$id} className=" sm:mx-7 mb-3 flex justify-end">
                   <p className=" mr-1 my-2 text-base relative max-w-[75%] sm:max-w-[60%] rounded-xl  p-3  bg-purple-400">
-                    <span className="font-bold text-xs absolute pb-0.5   top-0 ">
+                    <span className="font-bold text-xs absolute pb-0.5  top-0 ">
                       {item.name}
                     </span>{" "}
                     {item.masseage}
@@ -144,7 +171,7 @@ const Chat = () => {
                 ""
               )
             ) : params.id === item.communities_id.$id ? (
-              <div className="flex sm:mx-7 justify-" key={item.$id}>
+              <div className="flex sm:mx-7 mb-3 justify-start" key={item.$id}>
                 <p
                   className="ml-1 my-2 relative max-w-[75%] sm:max-w-[60%]  
                            rounded-xl p-3  bg-green-400"
@@ -156,14 +183,16 @@ const Chat = () => {
                   {item.masseage}
                 </p>
               </div>
+              
             ) : (
               ""
             );
           })}
+          <div ref={myRef} className=""/>
         </div>
-
+        
         {/* this div for input */}
-        <div className="bg-black ">
+        <div className="">
           <form onSubmit={handlerSubmit} className=" fixed bottom-1">
             <label htmlFor="chat" className="sr-only">
               Your message

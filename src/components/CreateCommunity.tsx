@@ -16,8 +16,9 @@ import {
   databaseId,
 } from "../config/AppwriteConfig";
 import { toast } from "react-toastify";
-import { AppwriteException } from "appwrite";
+import { AppwriteException, Models } from "appwrite";
 import { communitiesStore } from "../data/CommunityStore";
+import { UseData } from "../data/UserStore";
 
 export default function CreateCommunity() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -26,6 +27,7 @@ export default function CreateCommunity() {
   const [loading, setLoading] = useState(false);
 
   const communityState = communitiesStore();
+  const user = UseData((state) => state.usersData) as Models.Session
 
   const handlerSubmit = () => {
     setLoading(true);
@@ -36,11 +38,14 @@ export default function CreateCommunity() {
       ID.unique(),
       {
         Name: community,
+        user_id : user.$id
       }
     );
     databasePromise
       .then((res) => {
         setLoading(false);
+        
+        
         communityState.AddCommunity(res);
         toast.success("Community Created Successfully");
       })

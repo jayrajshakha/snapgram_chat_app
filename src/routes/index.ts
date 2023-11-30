@@ -28,4 +28,5 @@ export const route = createBrowserRouter([
     path: "/chat/:id",
     Component: Chat,
   },
+
 ]);

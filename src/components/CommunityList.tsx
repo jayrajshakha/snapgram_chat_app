@@ -5,24 +5,26 @@ import {
   database,
   databaseId,
 } from "../config/AppwriteConfig";
-import { AppwriteException, Query } from "appwrite";
+import { AppwriteException, Models, Query } from "appwrite";
 import Loading from "./Loading";
 import CreateCommunity from "./CreateCommunity";
 import { Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UseData } from "../data/UserStore";
 
 const CommunityList = () => {
   const [loading, setLoading] = useState(false);
   const isFetch = useRef(false);
-
   const communityStoreData = communitiesStore();
+  const user = UseData((state) => state.usersData) as Models.Session
 
   const deleteFunction = (id: string) => {
     database
       .deleteDocument(databaseId, communityCallectionId, id)
       .then(() => {
         communityStoreData.DeleteCommunity(id);
+        toast.success("Community Deleted Succesfully" , {theme : "colored"})
       })
       .catch((err: AppwriteException) => {
         toast.error(err.message, { theme: "colored" });
@@ -30,24 +32,27 @@ const CommunityList = () => {
   };
 
   useEffect(() => {
+   
+    
     setLoading(true);
     if (!isFetch.current) {
       database
         .listDocuments(databaseId, communityCallectionId, [
-          Query.select(["$id", "Name"]),
+          Query.select(["$id", "Name", "user_id"]),
         ])
         .then((res) => {
           communityStoreData.AddCommunities(res.documents);
           setLoading(false);
         })
-        .catch((err) => {
+        .catch((err :AppwriteException) => {
           setLoading(false);
-          console.log(err);
+          toast.error(err.message,{theme : "colored"})
         });
     }
 
     isFetch.current = true;
   }, []);
+
 
   return (
     <>
@@ -90,7 +95,9 @@ const CommunityList = () => {
                     </Link>
                     <button
                       title="del"
+                      disabled={item.user_id !== user.$id} 
                       onClick={() => deleteFunction(item.$id)}
+                     
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -21,9 +21,7 @@
   }
   
   .custom-height-2 {
-    height: -webkit-calc(100vh - (68px + 57px)) ;
-
-
+    height: -webkit-calc(100vh - (68px + 50px + 32px)) ;
 }
 
   .custom-scrollbar::-webkit-scrollbar {
