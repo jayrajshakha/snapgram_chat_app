@@ -9,6 +9,7 @@ import { UseData } from "../data/UserStore";
 import { Models } from "appwrite";
 import { communitiesStore } from "../data/CommunityStore";
 
+
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -69,12 +70,10 @@ export default function AppNavbar() {
                 >
                   <img
                     className=" h-6 mx-2 w-auto"
-                    src="../../public/assets/favicon.ico"
+                    src= '../../public/assets/A.svg'
                     alt="Your Company"
                   />
-                  <p className="text-white mr-3 ml-[-8px] sm:text-2xl font-bold sm:ml-2 sm:mr-2 p-2 ">
-                    Snapgram
-                  </p>
+              
                 </div>
                 <div className="hidden sm:flex p-4 justify-center items-center ">
                   <div className=" text-center mt-1 rounded p-2 bg-gray-700 hover:bg-blue-800 hover:text-white text-gray-400 text-sm font-normal">

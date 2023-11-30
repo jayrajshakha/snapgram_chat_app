@@ -8,7 +8,6 @@ import {
 import { AppwriteException, Models, Query } from "appwrite";
 import Loading from "./Loading";
 import CreateCommunity from "./CreateCommunity";
-import { Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UseData } from "../data/UserStore";
@@ -49,6 +48,7 @@ const CommunityList = () => {
     }
 
     isFetch.current = true;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -71,10 +71,10 @@ const CommunityList = () => {
                 <li className="font-bold ">
                   No Communities are here Please Create and invite your friends{" "}
                   <br />{" "}
-                  <Button className=" hover:bg-blue-800 hover:text-white text-center rounded p-2 my-2">
+                  <div className=" hover:bg-blue-800 hover:text-white text-center rounded p-2 my-2">
                     {" "}
                     <CreateCommunity />
-                  </Button>{" "}
+                  </div>{" "}
                 </li>
               ) : (
                 ""

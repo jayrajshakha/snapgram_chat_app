@@ -125,7 +125,7 @@ const Chat = () => {
           <h1 className="font-bold text-2xl text-gray-500">{heading}</h1>
         </div>
         {/* this div for display message */}
-        <div className="flex flex-col mx-2 sm:mx-10 overflow-scroll mb-5 custom-height-2 ">
+        <div className="flex flex-col mx-2 sm:mx-10 overflow-scroll custom-scrollbar mb-5 custom-height-2 ">
           {messageData.chats?.map((item) => {
             return item.user_id === user.$id ? (
               params.id === item.communities_id.$id ? (
