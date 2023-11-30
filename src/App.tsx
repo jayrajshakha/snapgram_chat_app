@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { UseData } from "./data/UserStore";
 import AppNavbar from "./components/AppNavbar";
 import CommunityList from "./components/CommunityList";
-import User from "./components/User";
 
 // import CommunityList from "./components/CommunityList";
 

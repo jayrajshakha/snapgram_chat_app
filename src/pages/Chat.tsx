@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import AppNavbar from "../components/AppNavbar";
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import {
   ChatCollectionId,
   client,
@@ -21,7 +21,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [heading, setHeading] = useState("");
   const isFetch = useRef(false);
-  const myRef = useRef(null);
+  const myRef = useRef() as MutableRefObject<HTMLDivElement>;
   const [submit, setSubmit] = useState(false);
 
   const user = UseData(
