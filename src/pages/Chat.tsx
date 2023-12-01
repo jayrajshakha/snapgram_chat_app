@@ -120,7 +120,7 @@ const Chat = () => {
   ) : (
     <div className="bg-black  h-screen w-screen">
       <AppNavbar />
-      <div className="flex flex-col w-screen custom-height gap-2 ">
+      <div className= "flex flex-col w-screen custom-height gap-2 ">
         <div className="flex justify-center items-center bg-[#2e0b5e]">
           <h1 className="font-bold text-2xl text-gray-500">{heading}</h1>
         </div>

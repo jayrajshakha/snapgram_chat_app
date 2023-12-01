@@ -14,6 +14,7 @@
     @apply custom-height
   }
 
+
 }
 
 @layer utilities {
@@ -22,6 +23,11 @@
     height: -webkit-calc(100vh - 68px);
 
 
+  }
+  .bgpc {
+     background: url("../../public/assets/wall-2.jpg") no-repeat fixed center ;
+     background-size :cover;
+     
   }
 
   .custom-height-2 {

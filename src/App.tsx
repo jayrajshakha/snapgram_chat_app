@@ -20,12 +20,11 @@ const App = () => {
         .then((res) => {
           userData.updateData(res);
         })
-        .catch((err) => {
+        .catch(() => {
           navigate("/register");
           toast.error("You are not register please Register", {
             theme: "colored",
           });
-          console.log(err);
           userData.userReset();
         });
     }
@@ -35,7 +34,7 @@ const App = () => {
   return (
     <div className="custom-scrollbar bg-black w-screen h-screen">
       <AppNavbar />
-      <div className="flex custom-height justify-center items-center flex-col">
+      <div className="flex bgpc custom-height justify-center items-center flex-col">
         <CommunityList />
       </div>
     </div>
