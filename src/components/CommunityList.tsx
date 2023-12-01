@@ -57,8 +57,8 @@ const CommunityList = () => {
         <Loading />
       ) : (
         <>
-          <div className=" overflow-scroll mx-5 my-auto sm:m-0 sm:w-full lg:w-full h- max-w-sm p-4 bg-white border border-gray-400 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
-            <h2 className="mb-3 ml-4 text-base font-bold  text-blue-700 md:text-xl dark:text-white">
+          <div className=" overflow-scroll custom-scrollbar mx-5 my-auto sm:m-0 sm:w-full lg:w-full h- max-w-sm p-4 bg-transparent border border-gray-400 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+            <h2 className="mb-3 ml-4 text-base font-bold text-white md:text-xl dark:text-white">
               Communities
             </h2>
             <p className=" sm:hidden md:inline-block  p-2 text-sm font-normal text-gray-500 dark:text-gray-400">
