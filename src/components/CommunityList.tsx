@@ -66,7 +66,7 @@ const CommunityList = () => {
               new one.
             </p>
 
-            <ul className="overflow-hidden my-4 flex justify-center items-center flex-col space-y-3">
+            <ul className="overflow-scroll custom-scrollbar my-4 flex justify-center items-center flex-col space-y-3">
               {communityStoreData.communities.length <= 0 ? (
                 <li className="font-bold ">
                   No Communities are here Please Create and invite your friends{" "}
@@ -84,7 +84,7 @@ const CommunityList = () => {
                   return (
                     <li
                       key={item.$id}
-                      className="flex items-center overflow-hidden justify-between w-[140px] h-[30px] p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                      className="flex w-full items-center overflow-scroll custom-scrollbar justify-between  h-[30px] p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <Link to={`/chat/${item.$id}`} className="w-full">
                         <span className="flex-1 ms-3 whitespace-nowrap w-28">

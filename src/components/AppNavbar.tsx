@@ -68,11 +68,14 @@ export default function AppNavbar() {
                   onClick={navigate}
                   className="flex cursor-pointer flex-shrink-0 items-center"
                 >
-                  <img
+                  {/* <img
                     className=" h-6 mx-2 w-auto"
-                    src= '../../public/assets/A.svg'
+                    src= '../../public/assets/favicon.ico'
                     alt="Your Company"
-                  />
+                  /> */}
+                  <p className="text-white font-bold text-lg">
+                    Snapgarm
+                  </p>
               
                 </div>
                 <div className="hidden sm:flex p-4 justify-center items-center ">

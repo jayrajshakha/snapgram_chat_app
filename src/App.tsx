@@ -21,8 +21,8 @@ const App = () => {
           userData.updateData(res);
         })
         .catch((err) => {
-          navigate("/login");
-          toast.error(" You are not Login ! Please Login", {
+          navigate("/register");
+          toast.error("You are not register please Register", {
             theme: "colored",
           });
           console.log(err);
